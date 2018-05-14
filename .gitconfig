@@ -1,0 +1,49 @@
+[user]
+	name = Piotr Wyrobek
+	email = pitrew@gmail.com
+[core]
+	symlinks = false
+	editor = vim
+#	autocrlf = true
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = true
+[pack]
+	packSizeLimit = 2g
+[merge]
+	tool = meld
+[mergetool "meld"]
+	cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $MERGED $REMOTE
+    keepBackup = false
+    trustExitCode = false
+[diff "astextplain"]
+	textconv = astextplain
+[rebase]
+	autosquash = true
+[alias]
+    st = status
+    ci = commit
+    br = branch
+	brs = branch -av
+    co = checkout
+    di = diff
+    lg = log -p
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lolav = log --color --graph --pretty=format:'%C(auto)%h%Creset%C(auto)%d%Creset %s %C(green)<%an>%Creset %C(yellow)(%cr)%Creset' --abbrev-commit --decorate=full --all
+	lolv = log --color --graph --pretty=format:'%C(auto)%h%Creset%C(auto)%d%Creset %s %C(green)<%an>%Creset %C(yellow)(%cr)%Creset' --abbrev-commit --decorate=full
+    ls = ls-files
+	xld = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    xlds = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
+    xldr = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+
+[color "diff"]
+	whitespace = red reverse
+[url "https://"]
+	insteadOf = git://
+[push]
+	default = simple
+[http]
+	sslVerify = false
