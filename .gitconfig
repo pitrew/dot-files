@@ -4,7 +4,9 @@
 [core]
     symlinks = false
     editor = vim
+#    editor = code --wait
 #    autocrlf = true
+    pager = less -iXFR
 [color]
     diff = auto
     status = auto
@@ -13,13 +15,7 @@
 [pack]
     packSizeLimit = 2g
 [merge]
-    tool = meld
-[mergetool "meld"]
-    cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $MERGED $REMOTE
-    keepBackup = false
-    trustExitCode = false
-[diff "astextplain"]
-    textconv = astextplain
+    tool = vscode
 [rebase]
     autosquash = true
 [alias]
@@ -29,16 +25,25 @@
     brs = branch -av
     co = checkout
     di = diff
+    dic = diff --ignore-space-at-eol -b -w --ignore-blank-lines
+    fo = fetch origin -pt
+    mm =  merge origin/master
     lg = log -p
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lols = log --decorate --pretty=oneline --abbrev-commit --numstat
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     lolav = log --color --graph --pretty=format:'%C(auto)%h%Creset%C(auto)%d%Creset %s %C(green)<%an>%Creset %C(yellow)(%cr)%Creset' --abbrev-commit --decorate=full --all
     lolv = log --color --graph --pretty=format:'%C(auto)%h%Creset%C(auto)%d%Creset %s %C(green)<%an>%Creset %C(yellow)(%cr)%Creset' --abbrev-commit --decorate=full
+    lolsv = log --color --pretty=format:'%C(auto)%h%Creset%C(auto)%d%Creset %s %C(green)<%an>%Creset %C(yellow)(%cr)%Creset' --abbrev-commit --decorate=full --numstat
     ls = ls-files
+    prl = pr list --format='%sC%>(8)%i%Creset %Cyellow%<(12)@%au%Creset %Cgreen%U%Creset %t %l %n'
     xld = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
     xlds = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
     xldr = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
-
+    ss = ci-status
+    cpr = compare
+    delete-gone = !git branch -vv --color=never | grep ': gone]' | grep -v '>' | xargs -L1 | awk '{print($1)}' | xargs git b -d
+    delete-gone-force = !git branch -vv --color=never | grep ': gone]' | grep -v '>' | xargs -L1 | awk '{print($1)}' | xargs git b -D
 [color "diff"]
     whitespace = red reverse
 [url "https://"]
@@ -47,3 +52,17 @@
     default = simple
 [http]
     sslVerify = false
+
+[mergetool "meld"]
+    cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $MERGED $REMOTE
+    keepBackup = false
+    trustExitCode = false
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+[diff "astextplain"]
+    textconv = astextplain
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
